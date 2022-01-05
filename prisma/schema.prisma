@@ -1,0 +1,66 @@
+datasource db {
+  url      = "file:../tmp.bd.db"
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Users {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  deletedAt DateTime?
+  email     String   @unique
+  name      String
+  password  String
+  permissionCode Int  @default(0)
+  active    Int       @default(1)
+}
+
+model Products {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+  price     String?
+  value     String?
+  active    Int
+}
+
+model Categories {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+  name      String
+}
+
+model Outputs {
+  id        String    @id @default(cuid())
+  orderId   String
+  userId    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+  date      String
+  quantity  Int       @default(1)
+  status    Int
+  employee  String
+  shipping  String
+  sku       String
+  tracker   String
+}
+
+model Status {
+  id        String    @id @default(cuid())
+  code      Int       @default(0)
+  name      String
+}
+
+model Permissions {
+  id        String    @id @default(cuid())
+  code      Int
+  name      String
+}
