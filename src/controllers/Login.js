@@ -1,19 +1,10 @@
 import { Logger } from '~/utils/log'
 import { prisma } from '../data/index'
 import { encrypt, verify } from '../utils/bcrypt'
+import { generateToken } from '~/middlewares/Auth'
 
-const decodeBasicToken = basicToken => {
-  console.log('aqui ', basicToken)
-
-  const [type, credentials] = basicToken.split(' ')
-
-  if (type !== 'Basic') throw new Error('Invalid token type')
-
-  return Buffer.from(credentials, 'base64').toString().split(':')
-}
-
-export const _getUserLogin = async (req, res) => {
-  const [email, password] = decodeBasicToken(req.headers.authorization)
+export const _postUserLogin = async (req, res) => {
+  const { email, password } = req.body
 
   if (!email || !password)
     return res.status(400).json({
@@ -23,7 +14,7 @@ export const _getUserLogin = async (req, res) => {
 
   const verifyLogin = await prisma.users.findUnique({
     where: {
-      email: email,
+      email,
     },
   })
 
@@ -41,9 +32,7 @@ export const _getUserLogin = async (req, res) => {
       message: 'Incorrect password.',
     })
 
-  console.log(verifyLogin.id)
-
-  return res.redirect(`/v1/auth/${verifyLogin.id}`)
+  generateToken(req, res, verifyLogin.id)
 }
 
 export const _postCreateLogin = async (req, res) => {
@@ -58,7 +47,7 @@ export const _postCreateLogin = async (req, res) => {
 
     const verifyExists = await prisma.users.findUnique({
       where: {
-        email: email,
+        email,
       },
     })
 
@@ -68,6 +57,7 @@ export const _postCreateLogin = async (req, res) => {
         message: 'User with this e-mail already exists.',
       })
 
+    permission = parseInt(permission)
     const encryptedPass = encrypt(password)
 
     await prisma.users.create({

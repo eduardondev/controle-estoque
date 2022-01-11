@@ -3,13 +3,61 @@ import { Logger } from '~/utils/log'
 
 export const _getAllOutputs = async (req, res) => {
   try {
-    const data = await prisma.outputs.findMany({
-      where: {
-        userId: req.logged.user,
+    const { limit } = req.query
+
+    const outputs = await prisma.outputs.findMany({
+      take: parseInt(limit) || 20,
+    })
+    const status = await prisma.status.findMany({
+      select: {
+        code: true,
+        name: true,
       },
     })
 
-    return res.status(200).json(data)
+    // {
+    //   where: {
+    //     userId: req.logged.user,
+    //   },
+    // }
+
+    return res.status(200).json({
+      outputs: outputs,
+      status: status,
+    })
+  } catch (err) {
+    Logger.error(err)
+
+    return res.status(500).json({
+      error: 1,
+      message: 'Something is wrong. Please, contact us!',
+    })
+  }
+}
+
+export const _getUniqueOutput = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    if (!id)
+      return res.status(404).json({
+        error: 1,
+        message: 'Missing id!',
+      })
+
+    const output = await prisma.outputs.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!output)
+      return res.status(404).json({
+        error: 1,
+        message: 'Output not found.',
+      })
+
+    return res.status(200).json(output)
   } catch (err) {
     Logger.error(err)
 

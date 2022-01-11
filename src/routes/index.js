@@ -4,7 +4,7 @@ import * as login from '../controllers/Login'
 import * as users from '~/controllers/Users'
 import * as output from '~/controllers/Output'
 import * as status from '~/controllers/Status'
-import { _getAuth } from '~/controllers/Auth'
+import * as auth from '~/controllers/Auth'
 import { isAuth } from '~/middlewares/Auth'
 
 export const router = Router()
@@ -25,8 +25,8 @@ router.get('/v1/', (req, res) => {
 
 /* ----- LOGIN ----- */
 
+router.post('/v1/login', login._postUserLogin)
 router.post('/v1/login/create', login._postCreateLogin)
-router.get('/v1/login', login._getUserLogin)
 
 /* ----- END LOGIN ----- */
 
@@ -39,14 +39,15 @@ router.delete('/v1/user/delete/:id', isAuth, users._deleteUniqueUser)
 
 /* ----- END USERS ----- */
 
-/* ----- AUTH ----- */
+/* ----- AUTH VERIFY IF TOKEN IS VALID----- */
 
-router.get('/v1/auth/:id', _getAuth)
+router.get('/v1/auth/', isAuth, auth._getAuth)
 
 /* ----- END AUTH ----- */
 
 /* ----- OUTPUT ----- */
-router.get('/v1/outputs', isAuth, output._getAllOutputs)
+router.get('/v1/outputs', output._getAllOutputs)
+router.get('/v1/output/:id', output._getAllOutputs)
 router.post('/v1/output/create', isAuth, output._postCreateOutput)
 
 /* ----- END OUTPUT ----- */
