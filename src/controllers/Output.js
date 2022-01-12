@@ -6,6 +6,9 @@ export const _getAllOutputs = async (req, res) => {
     const { limit } = req.query
 
     const outputs = await prisma.outputs.findMany({
+      where: {
+        userId: req.logged.user,
+      },
       take: parseInt(limit) || 20,
     })
     const status = await prisma.status.findMany({
@@ -14,12 +17,6 @@ export const _getAllOutputs = async (req, res) => {
         name: true,
       },
     })
-
-    // {
-    //   where: {
-    //     userId: req.logged.user,
-    //   },
-    // }
 
     return res.status(200).json({
       outputs: outputs,
@@ -72,6 +69,8 @@ export const _postCreateOutput = async (req, res) => {
   try {
     let { orderId, date, status, employee, shipping, sku, tracker, quantity } =
       req.body
+
+    console.log(req.body)
 
     if (
       !orderId ||
