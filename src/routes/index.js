@@ -16,7 +16,7 @@ router.use((req, res, next) => {
   next()
 })
 
-router.get('/controle-estoque1/', (req, res) => {
+router.get('/controle-estoque/v1/', (req, res) => {
   res.status(200).json({
     error: 0,
     message: 'API is running correctly.',
