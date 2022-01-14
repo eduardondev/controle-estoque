@@ -1,13 +1,16 @@
 import { prisma } from '../data/index'
 import { Logger } from '~/utils/log'
+import { DecodeJWT } from '~/utils/decodeJwt'
 
 export const _getAllOutputs = async (req, res) => {
   try {
     const { limit } = req.query
 
+    const { user: jwtUserId } = await DecodeJWT(req.headers.authorization)
+
     const outputs = await prisma.outputs.findMany({
       where: {
-        userId: req.logged.user,
+        userId: jwtUserId,
       },
       take: parseInt(limit) || 20,
     })
@@ -70,7 +73,7 @@ export const _postCreateOutput = async (req, res) => {
     let { orderId, date, status, employee, shipping, sku, tracker, quantity } =
       req.body
 
-    console.log(req.body)
+    const { user: jwtUserId } = await DecodeJWT(req.headers.authorization)
 
     if (
       !orderId ||
@@ -101,7 +104,7 @@ export const _postCreateOutput = async (req, res) => {
 
     await prisma.outputs.create({
       data: {
-        userId: req.logged.user,
+        userId: jwtUserId,
         orderId,
         date: new Date(date),
         shipping,
