@@ -13,6 +13,9 @@ export const _getAllOutputs = async (req, res) => {
         userId: jwtUserId,
       },
       take: parseInt(limit) || 20,
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     const status = await prisma.status.findMany({
       select: {

@@ -16,7 +16,7 @@ router.use((req, res, next) => {
   next()
 })
 
-router.get('/v1/', (req, res) => {
+router.get('/controle-estoque1/', (req, res) => {
   res.status(200).json({
     error: 0,
     message: 'API is running correctly.',
@@ -25,37 +25,57 @@ router.get('/v1/', (req, res) => {
 
 /* ----- LOGIN ----- */
 
-router.post('/v1/login', login._postUserLogin)
-router.post('/v1/login/create', login._postCreateLogin)
+router.post('/controle-estoque/v1/login', login._postUserLogin)
+router.post('/controle-estoque/v1/login/create', login._postCreateLogin)
 
 /* ----- END LOGIN ----- */
 
 /* ----- USERS ----- */
 
-router.get('/v1/users', isAuth, users._getAllUsers)
-router.get('/v1/user/:id', isAuth, users._getUniqueUser)
-router.put('/v1/user/update/:id', isAuth, users._updateUniqueUser)
-router.delete('/v1/user/delete/:id', isAuth, users._deleteUniqueUser)
+router.get('/controle-estoque/v1/users', isAuth, users._getAllUsers)
+router.get('/controle-estoque/v1/user/:id', isAuth, users._getUniqueUser)
+router.put(
+  '/controle-estoque/v1/user/update/:id',
+  isAuth,
+  users._updateUniqueUser
+)
+router.delete(
+  '/controle-estoque/v1/user/delete/:id',
+  isAuth,
+  users._deleteUniqueUser
+)
 
 /* ----- END USERS ----- */
 
 /* ----- AUTH VERIFY IF TOKEN IS VALID----- */
 
-router.get('/v1/auth/', isAuth, auth._getAuth)
+router.get('/controle-estoque/v1/auth/', isAuth, auth._getAuth)
 
 /* ----- END AUTH ----- */
 
 /* ----- OUTPUT ----- */
-router.get('/v1/outputs', output._getAllOutputs)
-router.get('/v1/output/:id', output._getAllOutputs)
-router.post('/v1/output/create', isAuth, output._postCreateOutput)
+router.get('/controle-estoque/v1/outputs', output._getAllOutputs)
+router.get('/controle-estoque/v1/output/:id', output._getAllOutputs)
+router.post(
+  '/controle-estoque/v1/output/create',
+  isAuth,
+  output._postCreateOutput
+)
 
 /* ----- END OUTPUT ----- */
 
 /* ----- STATUS ----- */
 
-router.get('/v1/status', isAuth, status._getStatus)
-router.post('/v1/status/create', isAuth, status._postCreateStatus)
-router.delete('/v1/status/delete/:id', isAuth, status._deleteUniqueStatus)
+router.get('/controle-estoque/v1/status', isAuth, status._getStatus)
+router.post(
+  '/controle-estoque/v1/status/create',
+  isAuth,
+  status._postCreateStatus
+)
+router.delete(
+  '/controle-estoque/v1/status/delete/:id',
+  isAuth,
+  status._deleteUniqueStatus
+)
 
 /* ----- END STATUS ----- */
