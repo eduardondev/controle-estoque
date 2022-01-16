@@ -6,6 +6,7 @@ import { router } from '~/routes/'
 const App = Express()
 
 App.use((req, res, next) => {
+  if (req.method === 'OPTIONS') return res.status(200)
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', '*')
   res.header('Access-Control-Allow-Headers', '*')
