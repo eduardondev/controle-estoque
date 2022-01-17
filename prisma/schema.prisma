@@ -1,6 +1,6 @@
 datasource db {
-  url      = "file:../tmp.db"
-  provider = "sqlite"
+  url      = env("DB_URL")
+  provider = "mysql"
 }
 
 generator client {
