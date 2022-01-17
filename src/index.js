@@ -2,15 +2,6 @@ require('dotenv').config()
 import Express from 'express'
 import Cors from 'cors'
 import { router } from '~/routes/'
-
-import fs from 'fs'
-import https from 'https'
-
-const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
-}
-
 const App = Express()
 
 App.use((req, res, next) => {
@@ -35,10 +26,8 @@ App.use((req, res, next) => {
 
 App.use(router)
 
-// App.listen(process.env.SERVER_PORT, () => {
-//   console.log(
-//     `${process.env.SERVER_NAME} is running on ${process.env.SERVER_PORT}`
-//     )
-//   })
-
-https.createServer(options, App).listen(443)
+App.listen(process.env.SERVER_PORT, () => {
+  console.log(
+    `${process.env.SERVER_NAME} is running on ${process.env.SERVER_PORT}`
+  )
+})
