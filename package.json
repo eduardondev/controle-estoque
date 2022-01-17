@@ -12,7 +12,7 @@
     "fix:format": "prettier --write",
     "format": "yarb fix:format 'src/**/*.(js|ts|md|json)'",
     "lint": "yarn fix:lint src/**/*.{js|ts|md|json}'",
-    "dev": "node --exec babel-node -- src/index.js"
+    "dev": "nodemon --exec babel-node -- src/index.js"
   },
   "license": "MIT",
   "private": true,
@@ -33,9 +33,11 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "node-cache": "^5.1.2",
+    "openssl": "^2.0.0",
     "pino": "^7.2.0",
     "pino-pretty": "^7.2.0"
   }
