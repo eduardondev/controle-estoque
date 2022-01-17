@@ -12,7 +12,7 @@
     "fix:format": "prettier --write",
     "format": "yarb fix:format 'src/**/*.(js|ts|md|json)'",
     "lint": "yarn fix:lint src/**/*.{js|ts|md|json}'",
-    "dev": "nodemon --exec babel-node -- src/index.js"
+    "dev": "node --exec babel-node -- src/index.js"
   },
   "license": "MIT",
   "private": true,
