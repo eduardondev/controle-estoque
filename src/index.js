@@ -6,12 +6,21 @@ import { router } from '~/routes/'
 const App = Express()
 
 App.use((req, res, next) => {
-  if (req.method === 'OPTIONS') res.status(200)
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header(
+      'Access-Control-Allow-Methods',
+      'DELETE, POST, PUT, GET, OPTIONS'
+    )
+    res.header('Access-Control-Allow-Headers', '*')
+    res.header('Access-Control-Allow-Credentials', 'true')
+  }
 
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'DELETE, POST, PUT, GET, OPTIONS')
   res.header('Access-Control-Allow-Headers', '*')
   res.header('Access-Control-Allow-Credentials', 'true')
+
   App.use(Cors())
   next()
 })
