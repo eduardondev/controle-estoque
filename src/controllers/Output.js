@@ -78,16 +78,7 @@ export const _postCreateOutput = async (req, res) => {
 
     const { user: jwtUserId } = await DecodeJWT(req.headers.authorization)
 
-    if (
-      !orderId ||
-      !status ||
-      !employee ||
-      !shipping ||
-      !sku ||
-      !tracker ||
-      !date ||
-      !quantity
-    )
+    if (!orderId)
       return res.status(400).json({
         error: 1,
         message: 'Please, verify the sended fields.',
@@ -110,12 +101,12 @@ export const _postCreateOutput = async (req, res) => {
         userId: jwtUserId,
         orderId,
         date: new Date(date),
-        shipping,
-        status: parseInt(status),
-        quantity: parseInt(quantity),
-        employee,
-        sku,
-        tracker,
+        shipping: shipping || '',
+        status: parseInt(status) || 2,
+        quantity: parseInt(quantity) || 1,
+        employee: employee || '',
+        sku: sku || '',
+        tracker: tracker || '',
       },
     })
 
